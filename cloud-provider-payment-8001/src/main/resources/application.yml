@@ -1,0 +1,11 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://melopoz.top:3306/cloud-alibabaDB?useUnicode=true&characterEncoding=utf-8
+    username: melopoz
+    password: mp567890
