@@ -1,11 +1,9 @@
-package top.melopoz.entities;
+package top.melopoz.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 /**
  * @Author: zhangce
@@ -16,7 +14,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class Payment implements Serializable {
-    private Long id;
-    private String serial;
+public class R<T> {
+    private Integer code;
+    private String message;
+    private T data;
+
+    public R(Integer code, String message) {
+        this(code, message, null);
+    }
 }
