@@ -31,6 +31,7 @@ public class OrderNacosController {
 
     @GetMapping("/get/{id}")
     public R<Payment> get(@PathVariable Long id) {
+        //使用loadBalancerClient这个Bean实现负载均衡或者使用@LoadBalanced修饰的restTemplate进行负载均衡
         ServiceInstance serviceInstance = loadBalancerClient.choose("nacos-payment-provider");
         String hostPort = String.format("http://%s:%s", "localhost", serviceInstance.getPort());
         log.info("请求参数:{},调用{}的服务", id, hostPort);

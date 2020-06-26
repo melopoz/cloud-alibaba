@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ApplicationContextConfig {
     @Bean
+    /*可以使用LoadBalanced实现负载均衡，也可以在nacosController中使用loadBalancerClient这个Bean实现负载均衡*/
+    //@LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
