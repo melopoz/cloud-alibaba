@@ -208,3 +208,11 @@ service接口方法加注解
 ```
 @GetMapping(value="/payment/get/{id}")
 ```
+
+# Seate 分布式事务
+```@GlobalTransactional```
+
+写隔离
+
+读隔离
+
