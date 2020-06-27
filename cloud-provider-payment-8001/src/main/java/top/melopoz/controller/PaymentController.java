@@ -1,11 +1,14 @@
 package top.melopoz.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import top.melopoz.entities.Payment;
+import top.melopoz.handler.CustomHandler;
 import top.melopoz.service.PaymentService;
 import top.melopoz.vo.R;
 
@@ -50,5 +53,25 @@ public class PaymentController {
     @GetMapping("/config/info")
     public R configInfo(){
         return new R(200, "OK", configInfo);
+    }
+
+    /*测试sentinel 热点 key*/
+    @GetMapping("/testHotKey")
+    /*在sentinel控制台新增热点规则时，资源名要使用这个value*/
+    @SentinelResource(value = "testHotKey", blockHandler = "deal_testHotKey")
+    public String testHotKey(@RequestParam(required = false, value = "p1")String p1,
+                             @RequestParam( required = false, value = "p2")String p2){
+        return "...testHotKey";
+    }
+    /*熔断之后的兜底方法，如果@SentinelResource中不指定handler，会返回一个Error页面*/
+    public String deal_testHotKey(String p1, String p2, BlockException e){
+        return "...deal_testHotKey,xxxxxxxxxx";
+    }
+
+    /*自定义统一限流处理处理*/
+    @GetMapping("/testHandler")
+    @SentinelResource(value = "testHandler", blockHandlerClass = CustomHandler.class, blockHandler = "handlerException")
+    public String testHandler(){
+        return "...testHandler 测试统一限流handler";
     }
 }
