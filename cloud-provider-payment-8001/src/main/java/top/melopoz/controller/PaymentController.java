@@ -3,6 +3,7 @@ package top.melopoz.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import top.melopoz.entities.Payment;
 import top.melopoz.service.PaymentService;
@@ -16,6 +17,7 @@ import top.melopoz.vo.R;
 @RestController
 @RequestMapping("/payment")
 @Slf4j
+@RefreshScope//cloud原生注解，配置的动态刷新，自动更新
 public class PaymentController {
     @Autowired
     PaymentService paymentService;
@@ -40,5 +42,13 @@ public class PaymentController {
             return new R(200, "查询成功" + port, payment);
         }
         return new R(204, "查询不到对应数据，id:" + id + "。" + port);
+    }
+
+    @Value("${info.coder}")
+    private String configInfo;
+
+    @GetMapping("/config/info")
+    public R configInfo(){
+        return new R(200, "OK", configInfo);
     }
 }
